@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1488801237 source:/home/santosh/Desktop/piano-tiles/display.cpp
+	"display.h"
+
+1488801232 /home/santosh/Desktop/piano-tiles/display.h
+	<iostream>
+
