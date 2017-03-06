@@ -1,7 +1,16 @@
 # depslib dependency file v1.0
-1488801237 source:/home/santosh/Desktop/piano-tiles/display.cpp
+1488805479 source:/home/santosh/Desktop/piano-tiles/display.cpp
 	"display.h"
 
-1488801232 /home/santosh/Desktop/piano-tiles/display.h
+1488805432 /home/santosh/Desktop/piano-tiles/display.h
 	<iostream>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<stdio.h>
+	<string>
+	<cmath>
+
+1488805525 source:/home/santosh/Desktop/piano-tiles/main.cpp
+	<iostream>
+	"display.h"
 
