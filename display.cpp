@@ -1,4 +1,5 @@
 #include "display.h"
+#include "tiles.h"
 
 bool Display::init(){
 
@@ -52,7 +53,6 @@ bool Display::init(){
 	}
 
     return success;
-
 }
 
 bool Display::loadMedia(){
@@ -81,24 +81,22 @@ void Display::draw(){
     SDL_SetRenderDrawColor(renderer, 0x00, 0xBB, 0xAC, 0x08);
     SDL_RenderClear(renderer);
 
-    //Render red filled quad
-    SDL_Rect fillRect1 = { 0, 0, screenWidth/4, screenHeight/4 };
-    SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
-    SDL_RenderFillRect( renderer, &fillRect1 );
+    Tile t1(0, 0, screenWidth/4, screenHeight/4);
+    t1.setColor(0xFF, 0x00, 0x00, 0xFF);
+    t1.render(renderer);
 
-    SDL_Rect fillRect2 = { screenWidth/4, 0, screenWidth/4, screenHeight/4 };
-    SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
-    SDL_RenderFillRect( renderer, &fillRect2 );
+    Tile t2(screenWidth/4, 0, screenWidth/4, screenHeight/4);
+    t2.setColor(0x00, 0xFF, 0x00, 0xFF);
+    t2.render(renderer);
 
-    SDL_Rect fillRect3 = { screenWidth/2, 0, screenWidth/4, screenHeight/4 };
-    SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0xFF, 0xFF );
-    SDL_RenderFillRect( renderer, &fillRect3 );
+    Tile t3(screenWidth/2, 0, screenWidth/4, screenHeight/4);
+    t3.setColor(0x00, 0x00, 0xFF, 0xFF);
+    t3.render(renderer);
 
-    SDL_Rect fillRect4 = { 3*screenWidth/4, 0, screenWidth/4, screenHeight/4 };
-    SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
-    SDL_RenderFillRect( renderer, &fillRect4 );
+    Tile t4(3*screenWidth/4, 0, screenWidth/4, screenHeight/4);
+    t4.setColor(0xFF, 0x00, 0x00, 0xFF);
+    t4.render(renderer);
 
     //Update screen
     SDL_RenderPresent(renderer);
-
 }

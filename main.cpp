@@ -38,6 +38,7 @@ int main(int argc, char* args[])
                 // call to draw the stuff.
                 display.draw();
 			}
+
 		}
 	}
 
