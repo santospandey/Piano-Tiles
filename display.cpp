@@ -74,3 +74,31 @@ void Display::close(){
 	IMG_Quit();
 	SDL_Quit();
 }
+
+void Display::draw(){
+
+    //Clear screen
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xBB, 0xAC, 0x08);
+    SDL_RenderClear(renderer);
+
+    //Render red filled quad
+    SDL_Rect fillRect1 = { 0, 0, screenWidth/4, screenHeight/4 };
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+    SDL_RenderFillRect( renderer, &fillRect1 );
+
+    SDL_Rect fillRect2 = { screenWidth/4, 0, screenWidth/4, screenHeight/4 };
+    SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
+    SDL_RenderFillRect( renderer, &fillRect2 );
+
+    SDL_Rect fillRect3 = { screenWidth/2, 0, screenWidth/4, screenHeight/4 };
+    SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0xFF, 0xFF );
+    SDL_RenderFillRect( renderer, &fillRect3 );
+
+    SDL_Rect fillRect4 = { 3*screenWidth/4, 0, screenWidth/4, screenHeight/4 };
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+    SDL_RenderFillRect( renderer, &fillRect4 );
+
+    //Update screen
+    SDL_RenderPresent(renderer);
+
+}

@@ -13,13 +13,13 @@ private:
     //The window we'll be rendering to
     SDL_Window* window = NULL;
 
-public:
+    //The window renderer
+    SDL_Renderer* renderer = NULL;
 
     const int screenWidth=640;
     const int screenHeight=480;
 
-    //The window renderer
-    SDL_Renderer* renderer = NULL;
+public:
 
     //Starts up SDL and creates window
     bool init();
@@ -27,9 +27,10 @@ public:
     //Loads media
     bool loadMedia();
 
+    //call to draw the stuff in the screen.
+    void draw();
+
     //Frees media and shuts down SDL
     void close();
 
-    //Loads individual image as texture
-    SDL_Texture* loadTexture(std::string path);
 };
