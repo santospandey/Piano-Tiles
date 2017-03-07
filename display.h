@@ -4,11 +4,14 @@
 #include <stdio.h>
 #include <string>
 #include <cmath>
-
+#include "tiles.h"
 
 class Display{
 
 private:
+
+    const int screenWidth=640;
+    const int screenHeight=480;
 
     //The window we'll be rendering to
     SDL_Window* window = NULL;
@@ -16,8 +19,7 @@ private:
     //The window renderer
     SDL_Renderer* renderer = NULL;
 
-    const int screenWidth=640;
-    const int screenHeight=480;
+    Tile t1;
 
 public:
 
@@ -27,9 +29,15 @@ public:
     //Loads media
     bool loadMedia();
 
-    //call to draw the stuff in the screen.
+    // initialize position and color of tiles.
+    void initializeTiles();
+
+    // call to draw the stuff in the screen.
     void draw();
 
-    //Frees media and shuts down SDL
+    // handle events like keyboard events and mouse events
+    void handleEvents(SDL_Event& e);
+
+    // Frees media and shuts down SDL
     void close();
 };

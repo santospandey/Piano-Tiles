@@ -31,3 +31,28 @@ void Tile::render(SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, rgbColor.red, rgbColor.green, rgbColor.blue, rgbColor.alpha);
     SDL_RenderFillRect(renderer, &fillRect);
 }
+
+// set dimension of tile.
+void Tile::setDimension(int x, int y, int w, int h){
+    posX = x;
+    posY = y;
+    width = w;
+    height = h;
+}
+
+// call to move right the tile
+void Tile::moveRight(){
+    posX += 10;
+}
+
+void Tile::moveLeft(){
+    posX -= 10;
+}
+
+void Tile::moveUp(){
+    posY -= 10;
+}
+
+void Tile::moveDown(){
+    posY += 10;
+}

@@ -22,6 +22,9 @@ int main(int argc, char* args[])
 			//Event handler
 			SDL_Event e;
 
+            // at first initialize tiles.
+            display.initializeTiles();
+
 			//While application is running
 			while( !quit )
 			{
@@ -33,12 +36,14 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
+
+					//Handle input for the dot
+					display.handleEvents(e);
 				}
 
                 // call to draw the stuff.
                 display.draw();
 			}
-
 		}
 	}
 

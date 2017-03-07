@@ -1,5 +1,4 @@
 #include "display.h"
-#include "tiles.h"
 
 bool Display::init(){
 
@@ -75,28 +74,37 @@ void Display::close(){
 	SDL_Quit();
 }
 
+void Display::initializeTiles(){
+    t1.setColor(0xFF, 0x00, 0x00, 0xFF);
+    t1.setDimension(0, 0, screenWidth/4, screenHeight/4);
+}
+
+
 void Display::draw(){
 
     //Clear screen
     SDL_SetRenderDrawColor(renderer, 0x00, 0xBB, 0xAC, 0x08);
     SDL_RenderClear(renderer);
 
-    Tile t1(0, 0, screenWidth/4, screenHeight/4);
-    t1.setColor(0xFF, 0x00, 0x00, 0xFF);
     t1.render(renderer);
-
-    Tile t2(screenWidth/4, 0, screenWidth/4, screenHeight/4);
-    t2.setColor(0x00, 0xFF, 0x00, 0xFF);
-    t2.render(renderer);
-
-    Tile t3(screenWidth/2, 0, screenWidth/4, screenHeight/4);
-    t3.setColor(0x00, 0x00, 0xFF, 0xFF);
-    t3.render(renderer);
-
-    Tile t4(3*screenWidth/4, 0, screenWidth/4, screenHeight/4);
-    t4.setColor(0xFF, 0x00, 0x00, 0xFF);
-    t4.render(renderer);
 
     //Update screen
     SDL_RenderPresent(renderer);
+}
+
+
+void Display::handleEvents(SDL_Event& e){
+
+    //If a key was pressed
+	if( e.type == SDL_KEYDOWN)
+    {
+        //Adjust the velocity
+        switch( e.key.keysym.sym )
+        {
+            case SDLK_UP: t1.moveUp(); break;
+            case SDLK_DOWN: t1.moveDown(); break;
+            case SDLK_LEFT: t1.moveLeft(); break;
+            case SDLK_RIGHT: t1.moveRight(); break;
+        }
+    }
 }

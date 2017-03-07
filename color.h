@@ -1,5 +1,3 @@
-
-
 struct color{
     int red=0xFF;
     int green=0xFF;

@@ -21,6 +21,17 @@ class Tile{
         // set the rgb value of color
         void setColor(int r, int g, int b, int alp);
 
+        // set dimension of tile.
+        void setDimension(int x, int y, int w, int h);
+
         // render to main window
         void render(SDL_Renderer* renderer);
+
+        void moveRight();
+
+        void moveLeft();
+
+        void moveUp();
+
+        void moveDown();
 };
