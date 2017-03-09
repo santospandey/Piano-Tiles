@@ -25,6 +25,7 @@ int main(int argc, char* args[])
             //at first initialize tiles.
             display.initializeTiles();
 
+
 			//While application is running
 			while( !quit )
 			{
@@ -44,7 +45,9 @@ int main(int argc, char* args[])
                 // call to draw the stuff.
                 display.draw();
 
-                SDL_Delay(20);
+                //display.textInput();
+
+                SDL_Delay(100);
 			}
 		}
 	}

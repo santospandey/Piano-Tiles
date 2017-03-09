@@ -5,6 +5,11 @@ bool Display::init(){
 	//Initialization flag
 	bool success = true;
 
+    if(TTF_Init() < 0){
+        std::cout<<"error in ttf initializing";
+    }
+
+
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
@@ -47,7 +52,8 @@ bool Display::init(){
 					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
 				}
-			}
+
+            }
 		}
 	}
 
@@ -72,23 +78,38 @@ void Display::close(){
 	//Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
+	TTF_Quit();
 }
 
 void Display::initializeTiles(){
 
-    for(int i=0; i<8; i++){
-        tiles[i].setDimension(i*screenWidth/8, i*screenHeight/8, screenWidth/8, screenHeight/8);
+    for(int i=0; i<9; i++){
+        tiles[i].setDimension(i*screenWidth/8, i*screenHeight/8-screenHeight/8, screenWidth/8, screenHeight/8);
         if(i%2){
-            tiles[i].setColor(0xFF, 0x00, 0x00, 0xFF);
+            tiles[i].setColor(0x00, 0x00, 0x00, 0x88);
         }
         else{
-            tiles[i].setColor(0x00, 0x00, 0xFF, 0xFF);
+            tiles[i].setColor(0x00, 0x00, 0xFF, 0x88);
         }
     }
 }
 
-void Display::generateTile(int n){
-    int random = rand()%n;
+void Display::textInput(){
+    // for text
+    TTF_Font* Sans = TTF_OpenFont("OpenSans-Regular.ttf", 24); //this opens a font style and sets a size
+
+    SDL_Color White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "aaabbbccedd", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
+
+    SDL_Rect Message_rect; //create a rect
+    Message_rect.x = 0;  //controls the rect's x coordinate
+    Message_rect.y = 0; // controls the rect's y coordinte
+    Message_rect.w = 100; // controls the width of the rect
+    Message_rect.h = 100; // controls the height of the rect
+    SDL_RenderCopy(renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 }
 
 
@@ -98,24 +119,46 @@ void Display::draw(){
     SDL_SetRenderDrawColor(renderer, 0x00, 0xBB, 0xAC, 0x08);
     SDL_RenderClear(renderer);
 
-    for(int i=0; i<8; i++){
+    Message_rect.x = screenWidth/2;  //controls the rect's x coordinate
+    Message_rect.y = 0; // controls the rect's y coordinte
+    Message_rect.w = 50; // controls the width of the rect
+    Message_rect.h = 50; // controls the height of the rect
+
+    TTF_Font* Sans = TTF_OpenFont("OpenSans-Regular.ttf", 30); //this opens a font style and sets a size
+
+    std::stringstream ss;
+    ss << score;
+    std::string num = ss.str();
+
+    // render text
+    surfaceMessage = TTF_RenderText_Solid(Sans, &num[0], White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+    Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
+    SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+
+
+    for(int i=0; i<9; i++){
         tiles[i].render(renderer);
         tiles[i].moveDown();
 
         if(tiles[i].posY + tiles[i].height > screenHeight){
+
             int random = rand()%8;
-            tiles[i].setDimension(screenWidth/8 * random, 0, screenWidth/8, screenHeight/8);
+            tiles[i].setDimension(screenWidth/8 * random, -1*screenHeight/8, screenWidth/8, screenHeight/8);
             if(i%2){
-                tiles[i].setColor(0xFF, 0x00, 0x00, 0xFF);
+                tiles[i].setColor(0x00, 0x00, 0x00, 0x88);
             }
             else{
-                tiles[i].setColor(0x00, 0x00, 0xFF, 0xFF);
+                tiles[i].setColor(0x00, 0x00, 0xFF, 0x88);
             }
         }
     }
 
     //Update screen
     SDL_RenderPresent(renderer);
+
+    TTF_CloseFont(Sans);
+    SDL_DestroyTexture(Message);
+    SDL_FreeSurface(surfaceMessage);
 }
 
 
@@ -139,8 +182,11 @@ void Display::handleEvents(SDL_Event& e){
         //get the position of mouse.
         int x, y;
         SDL_GetMouseState(&x, &y);
-        for(int i=0; i<8; i++){
+        for(int i=0; i<9; i++){
             if(x > tiles[i].posX && x<tiles[i].posX+tiles[i].width && y > tiles[i].posY && y < tiles[i].posY + tiles[i].height){
+
+                ++score;
+                std::cout<<"\n"<<score;
                 tiles[i].rgbColor.red = 0x00;
                 tiles[i].rgbColor.green = 0xBB;
                 tiles[i].rgbColor.blue = 0xAC;

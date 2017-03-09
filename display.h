@@ -1,10 +1,16 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
+#include<SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
 #include <cmath>
 #include "tiles.h"
+#include <stdlib.h>
+#include <sstream>
+
+// global variable for delay
+//int delay = 40;
 
 class Display{
 
@@ -19,7 +25,16 @@ private:
     //The window renderer
     SDL_Renderer* renderer = NULL;
 
-    Tile tiles[8];
+    Tile tiles[9];
+
+    int score = 0;
+
+    SDL_Color White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
+    SDL_Surface* surfaceMessage;
+    SDL_Texture* Message;
+
+    SDL_Rect Message_rect; //create a rect
 
 public:
 
@@ -44,4 +59,5 @@ public:
     // generate random tile between 0 and n.
     void generateTile(int n);
 
+    void textInput();
 };
