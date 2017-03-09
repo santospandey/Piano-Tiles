@@ -19,7 +19,7 @@ private:
     //The window renderer
     SDL_Renderer* renderer = NULL;
 
-    Tile t1;
+    Tile tiles[1];
 
 public:
 
@@ -40,4 +40,8 @@ public:
 
     // Frees media and shuts down SDL
     void close();
+
+    // generate random tile between 0 and n.
+    void generateTile(int n);
+
 };

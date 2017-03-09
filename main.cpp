@@ -22,7 +22,7 @@ int main(int argc, char* args[])
 			//Event handler
 			SDL_Event e;
 
-            // at first initialize tiles.
+            //at first initialize tiles.
             display.initializeTiles();
 
 			//While application is running
@@ -43,6 +43,8 @@ int main(int argc, char* args[])
 
                 // call to draw the stuff.
                 display.draw();
+
+                SDL_Delay(20);
 			}
 		}
 	}

@@ -34,4 +34,6 @@ class Tile{
         void moveUp();
 
         void moveDown();
+
+        friend class Display;
 };

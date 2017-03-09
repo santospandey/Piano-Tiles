@@ -9,7 +9,16 @@ Tile::Tile(){
 }
 
 // parameterized constructor
-Tile::Tile(int x, int y, int w, int h){
+/*Tile::Tile(int x, int y, int w, int h){
+    posX = x;
+    posY = y;
+    width = w;
+    height = h;
+}
+*/
+
+// set dimension of tile.
+void Tile::setDimension(int x, int y, int w, int h){
     posX = x;
     posY = y;
     width = w;
@@ -32,27 +41,19 @@ void Tile::render(SDL_Renderer* renderer){
     SDL_RenderFillRect(renderer, &fillRect);
 }
 
-// set dimension of tile.
-void Tile::setDimension(int x, int y, int w, int h){
-    posX = x;
-    posY = y;
-    width = w;
-    height = h;
-}
-
 // call to move right the tile
 void Tile::moveRight(){
-    posX += 10;
+    posX += 5;
 }
 
 void Tile::moveLeft(){
-    posX -= 10;
+    posX -= 5;
 }
 
 void Tile::moveUp(){
-    posY -= 10;
+    posY -= 5;
 }
 
 void Tile::moveDown(){
-    posY += 10;
+    posY += 5;
 }

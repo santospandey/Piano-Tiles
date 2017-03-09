@@ -38,7 +38,7 @@ bool Display::init(){
 			else
 			{
 				//Initialize renderer color
-				SDL_SetRenderDrawColor( renderer, 0x23, 0x98, 0xAB, 0xBC);
+				SDL_SetRenderDrawColor( renderer, 0x00, 0xBB, 0xAC, 0x08);
 
 				//Initialize PNG loading
 				int imgFlags = IMG_INIT_PNG;
@@ -75,8 +75,13 @@ void Display::close(){
 }
 
 void Display::initializeTiles(){
-    t1.setColor(0xFF, 0x00, 0x00, 0xFF);
-    t1.setDimension(0, 0, screenWidth/4, screenHeight/4);
+
+    tiles[0].setDimension(0, 0, screenWidth/8, screenHeight/8);
+    tiles[0].setColor(0xFF, 0x00, 0x00, 0xFF);
+}
+
+void Display::generateTile(int n){
+    int random = rand()%n;
 }
 
 
@@ -86,8 +91,14 @@ void Display::draw(){
     SDL_SetRenderDrawColor(renderer, 0x00, 0xBB, 0xAC, 0x08);
     SDL_RenderClear(renderer);
 
-    t1.render(renderer);
+    tiles[0].render(renderer);
+    tiles[0].moveDown();
 
+    if(tiles[0].posY + tiles[0].height > screenHeight){
+        int random = rand()%8;
+
+        tiles[0].setDimension(screenWidth/8 * random, 0, screenWidth/8, screenHeight/8);
+    }
     //Update screen
     SDL_RenderPresent(renderer);
 }
@@ -96,15 +107,28 @@ void Display::draw(){
 void Display::handleEvents(SDL_Event& e){
 
     //If a key was pressed
-	if( e.type == SDL_KEYDOWN)
+	if(e.type == SDL_KEYDOWN)
     {
-        //Adjust the velocity
-        switch( e.key.keysym.sym )
+        //defines the functions for keys
+        switch(e.key.keysym.sym)
         {
-            case SDLK_UP: t1.moveUp(); break;
-            case SDLK_DOWN: t1.moveDown(); break;
-            case SDLK_LEFT: t1.moveLeft(); break;
-            case SDLK_RIGHT: t1.moveRight(); break;
+            case SDLK_UP: tiles[0].moveUp(); break;
+            case SDLK_DOWN: tiles[0].moveDown(); break;
+            case SDLK_LEFT: tiles[0].moveLeft(); break;
+            case SDLK_RIGHT: tiles[0].moveRight(); break;
+        }
+    }
+
+    if(e.type == SDL_MOUSEBUTTONDOWN){
+
+        //get the position of mouse.
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        if(x > tiles[0].posX && x<tiles[0].posX+tiles[0].width && y > tiles[0].posY && y < tiles[0].posY + tiles[0].height){
+            tiles[0].rgbColor.red = 0x00;
+            tiles[0].rgbColor.green = 0xBB;
+            tiles[0].rgbColor.blue = 0xAC;
+            tiles[0].rgbColor.alpha = 0x08;
         }
     }
 }
