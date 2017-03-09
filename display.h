@@ -10,8 +10,8 @@ class Display{
 
 private:
 
-    const int screenWidth=640;
-    const int screenHeight=480;
+    const int screenWidth=480;
+    const int screenHeight=640;
 
     //The window we'll be rendering to
     SDL_Window* window = NULL;
@@ -19,7 +19,7 @@ private:
     //The window renderer
     SDL_Renderer* renderer = NULL;
 
-    Tile tiles[1];
+    Tile tiles[8];
 
 public:
 

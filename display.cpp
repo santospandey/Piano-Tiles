@@ -76,8 +76,15 @@ void Display::close(){
 
 void Display::initializeTiles(){
 
-    tiles[0].setDimension(0, 0, screenWidth/8, screenHeight/8);
-    tiles[0].setColor(0xFF, 0x00, 0x00, 0xFF);
+    for(int i=0; i<8; i++){
+        tiles[i].setDimension(i*screenWidth/8, i*screenHeight/8, screenWidth/8, screenHeight/8);
+        if(i%2){
+            tiles[i].setColor(0xFF, 0x00, 0x00, 0xFF);
+        }
+        else{
+            tiles[i].setColor(0x00, 0x00, 0xFF, 0xFF);
+        }
+    }
 }
 
 void Display::generateTile(int n){
@@ -91,14 +98,22 @@ void Display::draw(){
     SDL_SetRenderDrawColor(renderer, 0x00, 0xBB, 0xAC, 0x08);
     SDL_RenderClear(renderer);
 
-    tiles[0].render(renderer);
-    tiles[0].moveDown();
+    for(int i=0; i<8; i++){
+        tiles[i].render(renderer);
+        tiles[i].moveDown();
 
-    if(tiles[0].posY + tiles[0].height > screenHeight){
-        int random = rand()%8;
-
-        tiles[0].setDimension(screenWidth/8 * random, 0, screenWidth/8, screenHeight/8);
+        if(tiles[i].posY + tiles[i].height > screenHeight){
+            int random = rand()%8;
+            tiles[i].setDimension(screenWidth/8 * random, 0, screenWidth/8, screenHeight/8);
+            if(i%2){
+                tiles[i].setColor(0xFF, 0x00, 0x00, 0xFF);
+            }
+            else{
+                tiles[i].setColor(0x00, 0x00, 0xFF, 0xFF);
+            }
+        }
     }
+
     //Update screen
     SDL_RenderPresent(renderer);
 }
@@ -124,11 +139,13 @@ void Display::handleEvents(SDL_Event& e){
         //get the position of mouse.
         int x, y;
         SDL_GetMouseState(&x, &y);
-        if(x > tiles[0].posX && x<tiles[0].posX+tiles[0].width && y > tiles[0].posY && y < tiles[0].posY + tiles[0].height){
-            tiles[0].rgbColor.red = 0x00;
-            tiles[0].rgbColor.green = 0xBB;
-            tiles[0].rgbColor.blue = 0xAC;
-            tiles[0].rgbColor.alpha = 0x08;
+        for(int i=0; i<8; i++){
+            if(x > tiles[i].posX && x<tiles[i].posX+tiles[i].width && y > tiles[i].posY && y < tiles[i].posY + tiles[i].height){
+                tiles[i].rgbColor.red = 0x00;
+                tiles[i].rgbColor.green = 0xBB;
+                tiles[i].rgbColor.blue = 0xAC;
+                tiles[i].rgbColor.alpha = 0x08;
+            }
         }
     }
 }
