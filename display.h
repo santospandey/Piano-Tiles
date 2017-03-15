@@ -29,12 +29,12 @@ private:
 
     int score = 0;
 
-    SDL_Color White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-
-    SDL_Surface* surfaceMessage;
-    SDL_Texture* Message;
+    SDL_Surface* surfaceMessage = NULL;
+    SDL_Texture* Message = NULL;
 
     SDL_Rect Message_rect; //create a rect
+    TTF_Font* font = NULL;
+    SDL_Color White;
 
 public:
 

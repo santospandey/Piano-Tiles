@@ -83,6 +83,8 @@ void Display::close(){
 
 void Display::initializeTiles(){
 
+    White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
     for(int i=0; i<9; i++){
         tiles[i].setDimension(i*screenWidth/8, i*screenHeight/8-screenHeight/8, screenWidth/8, screenHeight/8);
         if(i%2){
@@ -92,24 +94,6 @@ void Display::initializeTiles(){
             tiles[i].setColor(0x00, 0x00, 0xFF, 0x88);
         }
     }
-}
-
-void Display::textInput(){
-    // for text
-    TTF_Font* Sans = TTF_OpenFont("OpenSans-Regular.ttf", 24); //this opens a font style and sets a size
-
-    SDL_Color White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "aaabbbccedd", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
-
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
-
-    SDL_Rect Message_rect; //create a rect
-    Message_rect.x = 0;  //controls the rect's x coordinate
-    Message_rect.y = 0; // controls the rect's y coordinte
-    Message_rect.w = 100; // controls the width of the rect
-    Message_rect.h = 100; // controls the height of the rect
-    SDL_RenderCopy(renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 }
 
 
@@ -124,14 +108,14 @@ void Display::draw(){
     Message_rect.w = 50; // controls the width of the rect
     Message_rect.h = 50; // controls the height of the rect
 
-    TTF_Font* Sans = TTF_OpenFont("OpenSans-Regular.ttf", 30); //this opens a font style and sets a size
-
+    // convert score to string format
     std::stringstream ss;
     ss << score;
     std::string num = ss.str();
 
+    font = TTF_OpenFont("OpenSans-Regular.ttf", 30); //this opens a font style and sets a size
     // render text
-    surfaceMessage = TTF_RenderText_Solid(Sans, &num[0], White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+    surfaceMessage = TTF_RenderText_Solid(font, &num[0], White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
     Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture
     SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
 
@@ -156,9 +140,9 @@ void Display::draw(){
     //Update screen
     SDL_RenderPresent(renderer);
 
-    TTF_CloseFont(Sans);
-    SDL_DestroyTexture(Message);
+    TTF_CloseFont(font);
     SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(Message);
 }
 
 
@@ -186,7 +170,6 @@ void Display::handleEvents(SDL_Event& e){
             if(x > tiles[i].posX && x<tiles[i].posX+tiles[i].width && y > tiles[i].posY && y < tiles[i].posY + tiles[i].height){
 
                 ++score;
-                std::cout<<"\n"<<score;
                 tiles[i].rgbColor.red = 0x00;
                 tiles[i].rgbColor.green = 0xBB;
                 tiles[i].rgbColor.blue = 0xAC;

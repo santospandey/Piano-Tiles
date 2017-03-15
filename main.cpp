@@ -47,7 +47,7 @@ int main(int argc, char* args[])
 
                 //display.textInput();
 
-                SDL_Delay(100);
+                SDL_Delay(40);
 			}
 		}
 	}
